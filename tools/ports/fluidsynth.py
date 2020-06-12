@@ -27,13 +27,15 @@ def get(ports, settings, shared):
 
     configure_args = [
       'cmake',
-      '-G', 'Unix Makefiles',
       '-B' + dest_path,
       '-H' + source_path,
       '-DCMAKE_BUILD_TYPE=Release',
       '-DCMAKE_INSTALL_PREFIX=' + dest_path,
       '-Denable-static-emlib=on'
     ]
+
+    if os.name != 'nt': # not windows
+      configure_args.extend(['-G', 'Unix Makefiles'])
 
     building.configure(configure_args)
     building.make(['make', '-j%d' % building.get_num_cores(), '-C' + dest_path, 'install'])
