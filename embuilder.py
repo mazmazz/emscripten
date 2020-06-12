@@ -63,6 +63,7 @@ USER_TASKS = [
     'bullet',
     'bzip2',
     'cocos2d',
+    'fluidsynth',
     'freetype',
     'harfbuzz',
     'icu',
@@ -235,6 +236,8 @@ def main():
       build_port('vorbis', libname('libvorbis'), ['-s', 'USE_VORBIS=1'])
     elif what == 'ogg':
       build_port('ogg', libname('libogg'), ['-s', 'USE_OGG=1'])
+    elif what == 'fluidsynth':
+      build_port('fluidsynth', libname('libfluidsynth'), ['-s', 'USE_FLUIDSYNTH=1'])
     elif what == 'libjpeg':
       build_port('libjpeg', libname('libjpeg'), ['-s', 'USE_LIBJPEG=1'])
     elif what == 'libpng':

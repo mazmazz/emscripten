@@ -1361,6 +1361,9 @@ var USE_VORBIS = 0;
 // 1 = use ogg from emscripten-ports
 var USE_OGG = 0;
 
+// 1 = use fluidsynth from mazmazz/fluidsynth-emscripten
+var USE_FLUIDSYNTH = 0;
+
 // 1 = use freetype from emscripten-ports
 var USE_FREETYPE = 0;
 
