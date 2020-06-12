@@ -3202,6 +3202,12 @@ window.close = function() {
   def test_sdl2_mixer_wav(self):
     shutil.copyfile(path_from_root('tests', 'sounds', 'the_entertainer.wav'), 'sound.wav')
     self.btest('sdl2_mixer_wav.c', expected='1', args=['--preload-file', 'sound.wav', '-s', 'USE_SDL=2', '-s', 'USE_SDL_MIXER=2', '-s', 'INITIAL_MEMORY=33554432'])
+  
+  @requires_sound_hardware
+  def test_sdl2_mixer_midi(self):
+    shutil.copyfile(path_from_root('tests', 'sounds', 'bwv-988-v02.mid'), 'sound.mid')
+    shutil.copyfile(path_from_root('tests', 'sounds', '__Florestan_Basic_GM_GS.sf2'), 'soundfont.sf2')
+    self.btest('sdl2_mixer_midi.c', expected='1', args=['--preload-file', 'sound.mid', '--preload-file', 'soundfont.sf2', '-s', 'USE_SDL=2', '-s', 'USE_SDL_MIXER=2', '-s', 'USE_FLUIDSYNTH=1', '-s', 'INITIAL_MEMORY=33554432'])
 
   @no_wasm_backend('cocos2d needs to be ported')
   @requires_graphics_hardware

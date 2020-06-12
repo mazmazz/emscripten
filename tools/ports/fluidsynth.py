@@ -39,7 +39,7 @@ def get(ports, settings, shared):
     building.make(['make', '-j%d' % building.get_num_cores(), '-C' + dest_path, 'install'])
     os.rename(os.path.join(dest_path, 'bin', 'libfluidsynth.a'), target_path)
 
-    ports.install_header_dir(os.path.join(dest_path, 'include', 'fluidsynth'))
+    ports.install_header_dir(os.path.join(dest_path, 'include'))
 
     return target_path
 
@@ -57,7 +57,7 @@ def process_dependencies(settings):
 def process_args(ports, args, settings, shared):
   if settings.USE_FLUIDSYNTH == 1:
     get(ports, settings, shared)
-    args += ['-I' + os.path.join(ports.get_build_dir(), 'fluidsynth', 'include', 'fluidsynth')]
+    args += ['-I' + os.path.join(ports.get_build_dir(), 'fluidsynth', 'include')]
   return args
 
 

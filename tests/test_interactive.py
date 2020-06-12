@@ -119,6 +119,14 @@ class interactive(BrowserCore):
     Popen([EMCC, '-O2', '--minify', '0', os.path.join(self.get_dir(), 'sdl2_mixer_wav.c'), '-s', 'USE_SDL=2', '-s', 'USE_SDL_MIXER=2', '-s', 'INITIAL_MEMORY=33554432', '--preload-file', 'sound.wav', '-o', 'page.html']).communicate()
     self.run_browser('page.html', '', '/report_result?1')
 
+  def test_sdl2_mixer_midi(self):
+    shutil.copyfile(path_from_root('tests', 'sounds', 'bwv-988-v02.mid'), os.path.join(self.get_dir(), 'sound.mid'))
+    shutil.copyfile(path_from_root('tests', 'sounds', '__Florestan_Basic_GM_GS.sf2'), os.path.join(self.get_dir(), 'soundfont.sf2'))
+    open(os.path.join(self.get_dir(), 'sdl2_mixer_midi.c'), 'w').write(self.with_report_result(open(path_from_root('tests', 'sdl2_mixer_midi.c')).read()))
+
+    Popen([EMCC, '-O2', '--minify', '0', os.path.join(self.get_dir(), 'sdl2_mixer_midi.c'), '-s', 'USE_SDL=2', '-s', 'USE_SDL_MIXER=2', '-s', 'USE_FLUIDSYNTH=1', 'INITIAL_MEMORY=33554432', '--preload-file', 'sound.mid', '--preload-file', 'soundfont.sf2', '-o', 'page.html']).communicate()
+    self.run_browser('page.html', '', '/report_result?1')
+
   def zzztest_sdl2_audio_beeps(self):
     open(os.path.join(self.get_dir(), 'sdl2_audio_beep.cpp'), 'w').write(self.with_report_result(open(path_from_root('tests', 'sdl2_audio_beep.cpp')).read()))
 

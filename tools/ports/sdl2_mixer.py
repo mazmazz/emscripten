@@ -29,11 +29,18 @@ def get(ports, settings, shared):
     shutil.rmtree(dest_path, ignore_errors=True)
     shutil.copytree(source_path, dest_path)
 
+    flags = ['-DOGG_MUSIC', '-O2', '-s', 'USE_VORBIS=1', '-s', 'USE_SDL=2']
+    exclude_files = ['dynamic_flac', 'dynamic_fluidsynth', 'dynamic_mod', 'dynamic_modplug', 'dynamic_mp3',
+                      'load_mp3', 'music_cmd', 'music_flac', 'music_mad', 'music_mod',
+                      'music_modplug', 'playmus.c', 'playwave.c']
+
+    if settings.USE_FLUIDSYNTH:
+      flags.extend(['-DUSE_FLUIDSYNTH_MIDI', '-s', 'USE_FLUIDSYNTH=1'])
+    else:
+      exclude_files.append('fluidsynth')
+
     final = os.path.join(dest_path, libname)
-    ports.build_port(dest_path, final, [], ['-DOGG_MUSIC', '-O2', '-s', 'USE_VORBIS=1', '-s', 'USE_SDL=2'],
-                     ['dynamic_flac', 'dynamic_fluidsynth', 'dynamic_mod', 'dynamic_modplug', 'dynamic_mp3',
-                      'fluidsynth', 'load_mp3', 'music_cmd', 'music_flac', 'music_mad', 'music_mod',
-                      'music_modplug', 'playmus.c', 'playwave.c'],
+    ports.build_port(dest_path, final, [], flags, exclude_files,
                      ['external', 'native_midi', 'timidity'])
 
     # copy header to a location so it can be used as 'SDL2/'
