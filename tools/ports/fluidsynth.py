@@ -7,8 +7,8 @@ import os
 import logging
 from tools import building
 
-TAG = '2.0.2-em'
-HASH = '2b96d17cc96439cbca0da313180c34dd302686d625a53efbbaf4ac3604fa7b5b374539799874b33645151a817c23f41f7b76db015d356bc3b19ef321aeff15ce'
+TAG = '2.0.2-em-3'
+HASH = '5deb96568f7f9d002ddea1375e3836adf4e87352061545946e8655a225e21cc77e54eb9bc862e56565a3e2ea3166671d5ab52e120d7006075a344218b7ca2d56'
 REPO_NAME = 'fluidsynth-emscripten'
 
 def get(ports, settings, shared):
@@ -40,6 +40,7 @@ def get(ports, settings, shared):
     os.rename(os.path.join(dest_path, 'bin', 'libfluidsynth.a'), target_path)
 
     ports.install_header_dir(os.path.join(dest_path, 'include'))
+    ports.install_header_dir(os.path.join(dest_path, 'include', 'fluidsynth'))
 
     return target_path
 
