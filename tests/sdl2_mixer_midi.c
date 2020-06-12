@@ -8,7 +8,7 @@
 Mix_Music *midi = NULL;
 
 void sound_loop_then_quit() {
-    if (Mix_Playing(-1))
+    if (Mix_PlayingMusic())
         return;
     printf("Done audio\n");
     Mix_FreeMusic(midi);
@@ -33,9 +33,16 @@ int main(int argc, char* argv[]){
         }
         return context.sampleRate;
     });
+    if (!Mix_SetSoundFonts(SOUNDFONT_PATH))
+        return -1;
     if(Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
         return -1;
     midi = Mix_LoadMUS(MIDI_PATH);
+    if (midi == NULL)
+        return -1;
+    if (Mix_PlayMusic(midi, 0) == -1)
+        return -1;
+    // Ensure that the test gives an error if MIDI support was not compiled into SDL2_Mixer.
     if (Mix_Init(MIX_INIT_MID) == -1)
         return -1;
     printf("Starting sound play loop\n");
