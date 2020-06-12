@@ -7,8 +7,8 @@ import os
 import shutil
 import logging
 
-TAG = 'release-2.0.1'
-HASH = '81fac757bd058adcb3eb5b2cc46addeaa44cee2cd4db653dad5d9666bdc0385cdc21bf5b72872e6dd6dd8eb65812a46d7752298827d6c61ad5ce2b6c963f7ed0'
+TAG = 'release-2.0.2'
+HASH = 'b9d03061d177f20f4e03f3e3553afd7bfe0c05da7b9a774312b389318e747cf9724e0475e9afff6a64ce31bab0217e2afb2619d75556753fbbb6ecafa9775219'
 
 
 def get(ports, settings, shared):
@@ -29,15 +29,17 @@ def get(ports, settings, shared):
     shutil.rmtree(dest_path, ignore_errors=True)
     shutil.copytree(source_path, dest_path)
 
-    flags = ['-DOGG_MUSIC', '-O2', '-s', 'USE_VORBIS=1', '-s', 'USE_SDL=2']
-    exclude_files = ['dynamic_flac', 'dynamic_fluidsynth', 'dynamic_mod', 'dynamic_modplug', 'dynamic_mp3',
-                      'load_mp3', 'music_cmd', 'music_flac', 'music_mad', 'music_mod',
-                      'music_modplug', 'playmus.c', 'playwave.c']
+    flags = ['-DMUSIC_OGG', '-O2', '-s', 'USE_VORBIS=1', '-s', 'USE_SDL=2']
+    exclude_files = ['music_mad', 'music_mpg123', 'music_smpeg',
+                     'music_cmd', 'music_flac', 
+                     'music_nativemidi', 'music_timidity',
+                     'music_mikmod', 'music_modplug',
+                     'playmus.c', 'playwave.c']
 
     if settings.USE_FLUIDSYNTH:
-      flags.extend(['-DUSE_FLUIDSYNTH_MIDI', '-s', 'USE_FLUIDSYNTH=1'])
+      flags.extend(['-DMUSIC_MID_FLUIDSYNTH', '-s', 'USE_FLUIDSYNTH=1'])
     else:
-      exclude_files.append('fluidsynth')
+      exclude_files.append('music_fluidsynth')
 
     final = os.path.join(dest_path, libname)
     ports.build_port(dest_path, final, [], flags, exclude_files,
