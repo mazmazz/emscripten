@@ -31,6 +31,7 @@ def get(ports, settings, shared):
       '-H' + source_path,
       '-DCMAKE_BUILD_TYPE=Release',
       '-DCMAKE_INSTALL_PREFIX=' + dest_path,
+      '-DCMAKE_C_FLAGS_RELEASE=-O2',
       '-Denable-static-emlib=on'
     ]
 
